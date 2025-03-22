@@ -71,23 +71,23 @@ const isGameOver = (grid) => {
 
 const getTileColor = (num) => {
   const colors = {
-    2: "bg-yellow-200 text-gray-800",
-    4: "bg-yellow-300 text-gray-800",
-    8: "bg-orange-400 text-white",
-    16: "bg-orange-500 text-white",
-    32: "bg-red-400 text-white",
-    64: "bg-red-500 text-white",
-    128: "bg-green-400 text-white",
-    256: "bg-green-500 text-white",
-    512: "bg-blue-400 text-white",
-    1024: "bg-blue-500 text-white",
-    2048: "bg-purple-500 text-white",
+    2: "bg-yellow-300 border-yellow-400",
+    4: "bg-orange-300 border-orange-400",
+    8: "bg-red-300 border-red-400",
+    16: "bg-pink-400 border-pink-500",
+    32: "bg-purple-400 border-purple-500",
+    64: "bg-indigo-400 border-indigo-500",
+    128: "bg-blue-400 border-blue-500",
+    256: "bg-green-400 border-green-500",
+    512: "bg-teal-400 border-teal-500",
+    1024: "bg-cyan-400 border-cyan-500",
+    2048: "bg-amber-400 border-amber-500",
   };
-  return colors[num] || "bg-gray-700 text-white";
+  return colors[num] || "bg-gray-700 border-gray-800";
 };
 
 const Game2048 = () => {
-  const [grid, setGrid] = useState(generateRandomTile(getEmptyGrid()));
+  const [grid, setGrid] = useState(() => generateRandomTile(getEmptyGrid()));
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
@@ -96,12 +96,15 @@ const Game2048 = () => {
 
     const keyMap = { ArrowLeft: 0, ArrowUp: 1, ArrowRight: 2, ArrowDown: 3 };
     if (keyMap[e.key] !== undefined) {
-      let newGrid = move(grid, keyMap[e.key], setScore);
-      setGrid(newGrid);
-
-      if (isGameOver(newGrid)) {
-        setGameOver(true);
-      }
+      setGrid(currentGrid => {
+        const newGrid = move(currentGrid, keyMap[e.key], setScore);
+        
+        if (isGameOver(newGrid)) {
+          setGameOver(true);
+        }
+        
+        return newGrid;
+      });
     }
   };
 
@@ -112,56 +115,126 @@ const Game2048 = () => {
   };
 
   const quitGame = () => {
-    window.location.reload();
+    window.location.href = "/";
   };
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  });
+  }, [gameOver]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
-      <h1 className="text-4xl font-bold mb-4">2048 Game</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-white" style={{ 
+        backgroundImage: "linear-gradient(#ddd 1px, transparent 1px), linear-gradient(90deg, #ddd 1px, transparent 1px)",
+        backgroundSize: "40px 40px"
+      }} />
 
-      {/* Score Display */}
-      <div className="mb-4 text-lg font-semibold">
-        Score: <span className="text-yellow-400">{score}</span>
+      {/* Decorative shapes */}
+      <div className="absolute top-20 right-20">
+        <div className="w-24 h-24 bg-orange-500 rounded-full"></div>
+      </div>
+      <div className="absolute bottom-20 left-20">
+        <div className="w-20 h-20 bg-green-500 rounded-full"></div>
       </div>
 
-      {gameOver && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center text-white z-50">
-          <h2 className="text-4xl font-bold mb-4">Game Over!</h2>
-          <p className="text-2xl mb-2">Final Score: <span className="text-yellow-400">{score}</span></p>
+      <div className="relative z-10 flex flex-col items-center">
+        {/* Header */}
+        <div className="flex items-center justify-center mb-6">
+          <h1 className="text-6xl font-extrabold text-black px-4 tracking-tight">
+            MERGE 
+          </h1>
+          <div className="bg-pink-400 rounded-lg p-2 px-4 transform rotate-2 border-4 border-black">
+            <span className="text-6xl font-extrabold text-black">MASTER</span>
+          </div>
+        </div>
+
+        {/* Score Display */}
+        <div className="mb-8 flex items-center">
+          <div className="bg-yellow-400 border-4 border-black rounded-full px-6 py-2 shadow-lg transform -rotate-2">
+            <span className="text-2xl font-bold">SCORE: {score}</span>
+          </div>
+        </div>
+
+        {/* Game Grid */}
+        <div className="bg-white border-4 border-black rounded-xl p-4 shadow-lg relative">
+          <div className="grid grid-cols-4 gap-3">
+            {grid.map((row, rowIndex) =>
+              row.map((num, colIndex) => (
+                <div
+                  key={`${rowIndex}-${colIndex}`}
+                  className={`w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center text-2xl font-bold rounded-lg border-4 border-black shadow-md transform ${num ? 'scale-100' : 'scale-95'} transition-all ${
+                    getTileColor(num)
+                  }`}
+                >
+                  {num}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Game Controls */}
+        <div className="mt-8 flex space-x-4">
           <button
             onClick={restartGame}
-            className="bg-blue-500 px-6 py-2 rounded-lg text-lg font-semibold hover:bg-blue-600 transition mb-2"
+            className="bg-white border-4 border-black rounded-full px-6 py-2 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 relative"
           >
-            Restart
+            <span className="relative z-10">RESTART</span>
+            <div className="absolute inset-0 bg-blue-400 rounded-full -top-2 -left-2 -z-10"></div>
           </button>
+          
           <button
             onClick={quitGame}
-            className="bg-red-500 px-6 py-2 rounded-lg text-lg font-semibold hover:bg-red-600 transition"
+            className="bg-white border-4 border-black rounded-full px-6 py-2 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 relative"
           >
-            Quit
+            <span className="relative z-10">QUIT</span>
+            <div className="absolute inset-0 bg-red-400 rounded-full -top-2 -left-2 -z-10"></div>
           </button>
         </div>
-      )}
 
-      <div className="grid grid-cols-4 gap-2 bg-gray-800 p-4 rounded-lg shadow-lg relative">
-        {grid.map((row, rowIndex) =>
-          row.map((num, colIndex) => (
-            <div
-              key={`${rowIndex}-${colIndex}`}
-              className={`w-20 h-20 flex items-center justify-center text-2xl font-bold rounded-lg ${getTileColor(
-                num
-              )}`}
-            >
-              {num}
-            </div>
-          ))
-        )}
+        {/* Instructions */}
+        <div className="mt-6 bg-white border-4 border-black rounded-lg p-3 max-w-md">
+          <p className="text-center font-bold">Use arrow keys to move tiles. Combine same numbers to reach 2048!</p>
+        </div>
       </div>
+
+      {/* Game Over Modal */}
+      {gameOver && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center z-50">
+          <div className="bg-white border-4 border-black rounded-xl p-8 max-w-md w-full mx-4 relative">
+            <div className="absolute -top-6 -right-6 w-12 h-12 bg-yellow-300 rounded-full flex items-center justify-center border-4 border-black transform rotate-12">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </div>
+
+            <h2 className="text-4xl font-extrabold text-center mb-4">GAME OVER!</h2>
+            <div className="bg-yellow-400 border-4 border-black rounded-lg p-2 mb-6 text-center">
+              <p className="text-2xl font-bold">FINAL SCORE: {score}</p>
+            </div>
+            
+            <div className="flex flex-col space-y-3">
+              <button
+                onClick={restartGame}
+                className="bg-white border-4 border-black rounded-full px-6 py-2 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 relative"
+              >
+                <span className="relative z-10">PLAY AGAIN</span>
+                <div className="absolute inset-0 bg-blue-400 rounded-full -top-2 -left-2 -z-10"></div>
+              </button>
+              
+              <button
+                onClick={quitGame}
+                className="bg-white border-4 border-black rounded-full px-6 py-2 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 relative"
+              >
+                <span className="relative z-10">BACK TO GAMES</span>
+                <div className="absolute inset-0 bg-red-400 rounded-full -top-2 -left-2 -z-10"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

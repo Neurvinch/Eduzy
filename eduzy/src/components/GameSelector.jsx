@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useNavigate } from "react-router-dom";
 
 const GameSelector = () => {
@@ -47,7 +46,7 @@ const GameSelector = () => {
         </p>
         <div className="inline-block p-1 bg-yellow-400 rounded-full border-4 border-black shadow-lg transform -rotate-1">
           <div className="bg-white px-4 py-2 rounded-full">
-            <ConnectButton />
+            
           </div>
         </div>
       </div>
