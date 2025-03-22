@@ -114,7 +114,7 @@ const TokenSwap = () => {
         } },[ isConnected,address])
   return (
   
-<div className="relative min-h-screen mt-20 bg-white" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+<div className="relative min-h-screen mt-20 bg-white  mr-[350px] ml-[350px]" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
       {/* Decorative elements */}
       <div className="absolute top-16 right-24 w-12 h-12 bg-orange-500 rounded-full animate-pulse"></div>
       <div className="absolute bottom-32 left-16 w-10 h-10">
