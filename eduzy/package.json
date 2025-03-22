@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
+    "@rainbow-me/rainbowkit": "^2.2.4",
     "@tailwindcss/vite": "^4.0.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -18,7 +19,12 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.2",
+<<<<<<< HEAD
+    "tailwindcss": "^4.0.15",
+    "wagmi": "^2.14.15"
+=======
     "tailwindcss": "^4.0.15"
+>>>>>>> e7998abfbcfd183a231269d7984ade44c2a81c89
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 const Navbar = () => {
 
@@ -15,12 +16,7 @@ const Navbar = () => {
         <a href="#" className="text-black hover:text-blue-primary font-medium"></a>
         <a href="/work" className="text-black hover:text-blue-primary font-medium"></a>
         <a href="https://tally.so/r/3EdYDB" className="text-black hover:text-blue-primary font-medium"></a>
-        <a
-          href="https://tally.so/r/w47NPX"
-          className="bg-yellow-primary text-black font-bold px-4 py-2 rounded-full hover:bg-opacity-90 transition-all"
-        >
-         CONNECT WALLET
-        </a>
+        <ConnectButton/>
       </div>
 
       <div className="md:hidden">
