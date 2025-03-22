@@ -1,1 +1,0 @@
-export const vote_contract_address = "0xA21343e0CeF710e28ddC2C96827f76476ff76e39"
