@@ -15,7 +15,7 @@ const ProjectId = import.meta.env.VITE_PROJECT_ID;
  
 const eduTestnet ={
   id:656476 ,
-  name: "EDU Test Net",
+  name: "EDU Chain Testnet",
    iconUrl: "./network_icon.png",
   nativeCurrency: {name: "EDU Chain Testnet", symbol:"EDU", decimals : 18},
   rpcUrls: {
