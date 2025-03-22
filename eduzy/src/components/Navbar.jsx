@@ -20,9 +20,13 @@ const Navbar = () => {
         <Link to="/NFTrentAndMint" className="text-black hover:text-blue-primary font-medium">
         NFTrentAndMint
         </Link>
-        <a href="https://tally.so/r/3EdYDB" className="text-black hover:text-blue-primary font-medium">
-          External Link
-        </a>
+        <Link to="/MintingToken" className="text-black hover:text-blue-primary font-medium">
+        MintingToken
+        </Link>
+        <Link to="/TokenSwap" className="text-black hover:text-blue-primary font-medium">
+        TokenSwap
+        </Link>
+        
         <ConnectButton />
       </div>
     </nav>

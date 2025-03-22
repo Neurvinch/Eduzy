@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react';
 
 const testimonials = [
   {
-    quote: "Can positively say that their strongest suit is marrying brand aesthetic with graphic design visualisation.",
-    company: "Social",
+    quote: "This course completely changed the way I handle money! I learned how to save, invest, and manage my expenses without stress. Now, I feel financially secure and confident about my future .",
+    company: "SmartWealth",
     logo: "https://cdn.prod.website-files.com/6513c48ced436181a3a12349/651e56f5b528c95cab915324_Mobile%20grid.svg"
   },
   {
-    quote: "Love how they proactively suggest ideas and take full control/ownership. You can always expect something fresh from their network.",
-    company: "Indiefolio",
+    quote: "I had no idea how vulnerable I was online until I took this course. Now, I can spot scams, protect my data, and even secure my crypto assets with confidence. A must-learn skill in today's digital world !",
+    company: "CyberShield",
     logo: "https://cdn.prod.website-files.com/6513c48ced436181a3a12349/65291586cabc4a6c07b52a86_Indifolio%20mobile.svg"
   },
   {
-    quote: "Great team of ideators! Got a poster designed and received multiple copy and design options that made it hard to pick one haha.",
-    company: "Pawsome",
+    quote: "From better eating habits to stress management techniques, this course has improved my daily routine. I feel healthier, more energetic, and mentally stronger than ever before !",
+    company: "VitaMind",
     logo: "https://cdn.prod.website-files.com/6513c48ced436181a3a12349/652918cd59b860fb606e2341_pawsome%20(1).svg"
   },
   {
-    quote: "BYOOOOOB really works as an extension of your internal marketing team. Smooth brainstorming and truly a collaborative effort!",
-    company: "Ionet",
+    quote: "Public speaking was my biggest fear, but this course helped me overcome it. Now, I communicate with confidence, think critically, and solve problems like a pro !",
+    company: "Mindfluence",
     logo: "https://cdn.prod.website-files.com/6513c48ced436181a3a12349/65291915ce92e9979574e387_Ionet%20mobile.svg"
   }
 ];
@@ -48,28 +48,28 @@ const PortfolioItem = ({ title, image, link, tags }) => {
 const Hero = () => {
   const portfolioItems = [
     {
-      title: "Indiefolio",
+      title: "",
       image: "/b.pmg.jpg",
       link: "https://www.icuerious.com/images/blockchain-img.jpg",
-      tags: ["SOCIAL", "CONTENT", "STRATEGY"]
+      tags: ["BUDGET", "INVEST", "CREDIT"]
     },
     {
       title: "Village by Boa",
       image: "/b2.avif",
       link: "https://www.villagebyboa.com",
-      tags: ["VERBAL IDENTITY", "WEB DESIGN", "WEB DEV"]
+      tags: ["SCAM", "PRIVACY", "THREAT"]
     },
     {
       title: "Slay",
       image: "/b3.png",
       link: "https://www.borntoslay.in",
-      tags: ["CONTENT", "SOCIAL", "STRATEGY"]
+      tags: ["STRESS", "FITNESS", "MIND"]
     },
     {
       title: "Speckles",
       image: "/b4.jpg",
       link: "https://specklesforkids.com",
-      tags: ["BRANDING", "PACKAGING", "PRINT"]
+      tags: ["SPEAK", "DECISION", "LOGIC"]
     }
   ];
 
@@ -350,8 +350,8 @@ const Hero = () => {
         
         <div className="container mx-auto px-6">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-black">kissies FROM OUR</h2>
-            <h2 className="text-3xl font-black">PARTNERS</h2>
+            <h2 className="text-3xl font-black">What Our Learners Say</h2>
+            <h2 className="text-3xl font-black"></h2>
           </div>
           
           <div className="max-w-2xl mx-auto relative">
@@ -400,7 +400,7 @@ const Hero = () => {
                 className="text-indigo-600 font-bold flex items-center mx-auto px-6 py-2 "
                 onClick={() => setActiveIndex((activeIndex + 1) % testimonials.length)}
               >
-                <span className="mr-Z">NEXT KISS</span>
+                <span className="mr-Z"> NEXT </span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
