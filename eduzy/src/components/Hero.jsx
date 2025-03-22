@@ -48,25 +48,25 @@ const PortfolioItem = ({ title, image, link, tags }) => {
 const Hero = () => {
   const portfolioItems = [
     {
-      title: "",
+      title: "Financial Literacy & Money Management ",
       image: "/b.pmg.jpg",
       link: "https://www.icuerious.com/images/blockchain-img.jpg",
       tags: ["BUDGET", "INVEST", "CREDIT"]
     },
     {
-      title: "Village by Boa",
+      title: "Digital Security and Cyber Awareness",
       image: "/b2.avif",
       link: "https://www.villagebyboa.com",
       tags: ["SCAM", "PRIVACY", "THREAT"]
     },
     {
-      title: "Slay",
+      title: "Health,Nutrition & Well Being",
       image: "/b3.png",
       link: "https://www.borntoslay.in",
       tags: ["STRESS", "FITNESS", "MIND"]
     },
     {
-      title: "Speckles",
+      title: "Communication & Critical Thinking",
       image: "/b4.jpg",
       link: "https://specklesforkids.com",
       tags: ["SPEAK", "DECISION", "LOGIC"]
