@@ -293,8 +293,8 @@ const Hero = () => {
 
         <div className="container mx-auto px-4 pt-16 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-8 inline-flex items-center">
-              ON-DEMAND TEAMS BUILT IN A BLINK
+            <h2 className="text-3xl md:text-4xl font-black mb-8 inline-flex items-center uppercase">
+            Empower Your Learning: Watch, Earn, and Decide !
               <span className="ml-4 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center animate-pulse">
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
                   <path d="M12 5v14M5 12h14" />
@@ -303,9 +303,8 @@ const Hero = () => {
             </h2>
 
             <p className="max-w-3xl mx-auto text-lg text-gray-700">
-              With our handpicked team of experts, you can now build an extension of your inhouse team,
-              while ensuring top-notch results. Our on-demand teams are more than just skilled; they're
-              agile and adaptive. We work tirelessly behind the scenes, even when you're off the clock.
+            Experience the future of learning! 🚀 Earn rewards while watching courses, vote for new content, and join live-streamed sessions with experts.
+             Powered by Web3 & crypto, ensuring a secure & decentralized experience. 🎓💡
             </p>
           </div>
 
@@ -407,13 +406,7 @@ const Hero = () => {
                 </svg>
               </button>
 
-              <button
-                className="text-indigo-600 font-bold flex items-center mx-auto px-6 py-2 "
-                onClick={() => setActiveIndex((activeIndex + 1) % testimonials.length)}
-              >
-                <span className="mr-Z">CONNECT WALLET</span>
-                
-              </button>
+             
             </div>
           </div>
         </div>

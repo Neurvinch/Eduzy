@@ -1,6 +1,6 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import React from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
 
@@ -14,18 +14,16 @@ const Navbar = () => {
       </div>
 
       <div className="hidden md:flex items-center space-x-6">
-        <a href="#" className="text-black hover:text-blue-primary font-medium"></a>
-        <a href="/work" className="text-black hover:text-blue-primary font-medium"></a>
-        <a href="https://tally.so/r/3EdYDB" className="text-black hover:text-blue-primary font-medium"></a>
-        <ConnectButton/>
-      </div>
-
-      <div className="md:hidden">
-        <button className="text-black focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
+        <Link to="/ComeAndStake" className="text-black hover:text-blue-primary font-medium">
+          Stake
+        </Link>
+        <Link to="/NFTrentAndMint" className="text-black hover:text-blue-primary font-medium">
+        NFTrentAndMint
+        </Link>
+        <a href="https://tally.so/r/3EdYDB" className="text-black hover:text-blue-primary font-medium">
+          External Link
+        </a>
+        <ConnectButton />
       </div>
     </nav>
   );

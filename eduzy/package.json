@@ -15,21 +15,14 @@
     "@tailwindcss/vite": "^4.0.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "ethers": "^6.13.5",
     "lucide-react": "^0.483.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.4.0",
     "tailwind-merge": "^3.0.2",
-<<<<<<< HEAD
     "tailwindcss": "^4.0.15",
     "wagmi": "^2.14.15"
-=======
-<<<<<<< HEAD
-    "tailwindcss": "^4.0.15",
-    "wagmi": "^2.14.15"
-=======
-    "tailwindcss": "^4.0.15"
->>>>>>> e7998abfbcfd183a231269d7984ade44c2a81c89
->>>>>>> 457fdfc4a1f86e547d496be341f9b967643b22ee
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
