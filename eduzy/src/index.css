@@ -1,1 +1,80 @@
 @import "tailwindcss";
+
+@keyframes molePop {
+    0% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes moleDisappear {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
+  
+  .animate-molePop {
+    animation: molePop 0.5s ease-in-out forwards;
+  }
+  
+  .animate-moleDisappear {
+    animation: moleDisappear 0.5s ease-in-out forwards;
+  }
+  
+
+  @keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientMove {
+  0% {
+    background-size: 200% 200%;
+    background-position: left top;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+  100% {
+    background-size: 200% 200%;
+    background-position: left bottom;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+.animate-gradient {
+  animation: gradientMove 6s infinite alternate ease-in-out;
+}
+/* Title Neon Glow */
+.neon-text {
+    text-shadow: 0 0 10px #fff, 0 0 20px #ff007a, 0 0 30px #ff007a, 0 0 40px #ff007a;
+  }
+  
+  /* Game Card Hover Effect */
+  .game-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+  }
+  

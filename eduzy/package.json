@@ -13,9 +13,12 @@
     "@rainbow-me/rainbowkit": "^2.2.4",
     "@tailwindcss/vite": "^4.0.15",
     "@tanstack/react-query": "^5.69.0",
+    "buffer": "^6.0.3",
     "ipfs-http-client": "^60.0.1",
+    "phaser": "^3.88.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.4.0",
     "tailwindcss": "^4.0.15",
     "viem": "^2.23.14",
     "wagmi": "^2.14.15"
