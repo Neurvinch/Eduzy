@@ -1,4 +1,5 @@
 
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 import './App.css'
 
 function App() {
@@ -6,7 +7,7 @@ function App() {
 
   return (
     <>
-      
+      <ConnectButton/>
     </>
   )
 }
