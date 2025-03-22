@@ -1,5 +1,5 @@
 
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+
 import './App.css'
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
