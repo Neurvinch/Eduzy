@@ -204,7 +204,7 @@ const Events = () => {
   }, [address, isConnected]);
 
   return (
-    <div className="min-h-screen relative mt-20" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+    <div className="min-h-screen relative mt-20  mr-[250px] ml-[250px]" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
       {/* Decorative elements */}
       <div className="absolute top-20 left-12 w-16 h-16">
         <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -254,21 +254,21 @@ const Events = () => {
                   placeholder="Name" 
                   value={eventName} 
                   onChange={(e) => setEventName(e.target.value)} 
-                  className="border-2 border-black rounded- px-4 py-2"
+                  className="border-2 border-black  px-4 py-2"
                 />
                 <input 
                   type="text" 
                   placeholder="Description" 
                   value={eventDescription} 
                   onChange={(e) => setEventDescription(e.target.value)} 
-                  className="border-2 border-black rounded px-4 py-2"
+                  className="border-2 border-black  px-4 py-2"
                 />
                 <input 
                   type="text" 
                   placeholder="Entry Fee (ETH)" 
                   value={entryFee} 
                   onChange={(e) => setEntryFee(e.target.value)} 
-                  className="border-2 border-black rounded- px-4 py-2"
+                  className="border-2 border-black  px-4 py-2"
                 />
                 <div className="flex items-center gap-2 px-4">
                   <label className="flex items-center gap-2 rounded-full cursor-pointer">
@@ -289,25 +289,25 @@ const Events = () => {
                   type="datetime-local" 
                   value={startTime} 
                   onChange={(e) => setStartTime(e.target.value)} 
-                  className="border-2 border-black rounded- px-4 py-2"
+                  className="border-2 border-black  px-4 py-2"
                 />
                 <input 
                   type="datetime-local" 
                   value={endTime} 
                   onChange={(e) => setEndTime(e.target.value)} 
-                  className="border-2 border-black rounded- px-4 py-2"
+                  className="border-2 border-black  px-4 py-2"
                 />
                 <input 
                   type="text" 
                   placeholder="Max Attendees" 
                   value={maxAttendees} 
                   onChange={(e) => setMaxAttendees(e.target.value)} 
-                  className="border-2 border-black rounded px-4 py-2"
+                  className="border-2 border-black px-4 py-2"
                 />
               </div>
               <div className="mt-4 flex justify-center">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-black rounded- transform translate-x-1 translate-y-1"></div>
+                  <div className="absolute inset-0 bg-black transform translate-x-1 translate-y-1"></div>
                   <button 
                     onClick={handleCreateEvent}
                     className="relative bg-orange-500 text-white font-bold px-8 py-3 rounded- z-10"
@@ -319,7 +319,7 @@ const Events = () => {
             </div>
 
             {/* Register for Event */}
-            <div className="bg-white rounded-lg p-6 mb-6 shadow-md border-2 border-black">
+            <div className="bg-white  p-6 mb-6 shadow-md border-2 border-black">
               <h2 className="text-2xl font-bold mb-4 text-green-600">Register for Event</h2>
               <div className="flex flex-wrap gap-4">
                 <input 
@@ -327,11 +327,11 @@ const Events = () => {
                   placeholder="Event ID" 
                   value={eventId} 
                   onChange={(e) => setEventId(e.target.value)} 
-                  className="border-2 border-black rounded- px-4 py-2 flex-1"
+                  className="border-2 border-black  px-4 py-2 flex-1"
                 />
                 <button 
                   onClick={handleRegisterForEvent}
-                  className="bg-green-500 text-white font-bold px-6 py-2 rounded- hover:bg-green-600 transition-colors"
+                  className="bg-green-500 text-white font-bold px-6 py-2  hover:bg-green-600 transition-colors"
                 >
                   Register
                 </button>
@@ -347,26 +347,26 @@ const Events = () => {
                   placeholder="Event ID" 
                   value={eventId} 
                   onChange={(e) => setEventId(e.target.value)} 
-                  className="border-2 border-black rounded- px-4 py-2"
+                  className="border-2 border-black  px-4 py-2"
                 />
                 <input 
                   type="text" 
                   placeholder="Username" 
                   value={accessUsername} 
                   onChange={(e) => setAccessUsername(e.target.value)} 
-                  className="border-2 border-black rounded- px-4 py-2"
+                  className="border-2 border-black  px-4 py-2"
                 />
               </div>
               <div className="flex gap-4 justify-center">
                 <button 
                   onClick={handleGrantAccess}
-                  className="bg-purple-600 text-white font-bold px-6 py-2 rounded-full hover:bg-purple-700 transition-colors"
+                  className="bg-purple-600 text-white font-bold px-6 py-2  hover:bg-purple-700 transition-colors"
                 >
                   Grant Access
                 </button>
                 <button 
                   onClick={handleRevokeAccess}
-                  className="bg-red-500 text-white font-bold px-6 py-2 rounded-full hover:bg-red-600 transition-colors"
+                  className="bg-red-500 text-white font-bold px-6 py-2  hover:bg-red-600 transition-colors"
                 >
                   Revoke Access
                 </button>
@@ -382,19 +382,19 @@ const Events = () => {
                   placeholder="Event ID" 
                   value={eventId} 
                   onChange={(e) => setEventId(e.target.value)} 
-                  className="border-2 border-black rounded-full px-4 py-2 flex-1"
+                  className="border-2 border-black  px-4 py-2 flex-1"
                 />
               </div>
               <div className="flex gap-4 justify-center">
                 <button 
                   onClick={handleCancelEvent}
-                  className="bg-red-500 text-white font-bold px-6 py-2 rounded-full hover:bg-red-600 transition-colors"
+                  className="bg-red-500 text-white font-bold px-6 py-2  hover:bg-red-600 transition-colors"
                 >
                   Cancel Event
                 </button>
                 <button 
                   onClick={handleRefundEvent}
-                  className="bg-yellow-400 text-black font-bold px-6 py-2 rounded-full hover:bg-yellow-500 transition-colors"
+                  className="bg-yellow-400 text-black font-bold px-6 py-2  hover:bg-yellow-500 transition-colors"
                 >
                   Refund Event
                 </button>
