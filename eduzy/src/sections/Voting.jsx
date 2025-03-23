@@ -225,7 +225,7 @@ const Voting = () => {
   </header>
 
   {isConnected && (
-    <div className="px-6 space-y-8 pb-16">
+    <div className="px-6 space-y-8 pb-16  mr-[250px] ml-[250px]">
       {/* Token Info */}
       <div className="bg-white rounded-lg p-5 shadow-md border-2 border-black relative">
         <div className="absolute -top-3 -left-3 bg-indigo-600 text-white px-4 py-1 rounded-lg font-bold">
