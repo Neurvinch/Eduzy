@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
 import { ethers, parseEther } from 'ethers';
+import { PinataSDK } from 'pinata';
 import ABI from '../ABI/rentAndMint.json';
 
 const NFTrentAndMint = () => {
@@ -17,7 +18,13 @@ const NFTrentAndMint = () => {
     const [isOwner, setIsOwner] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [file, setFile] = useState(null);
     const contractAddress = "0x83fB54D5Cdc0048c997f4e27d38bB43960bEe1B2";
+
+    const pinata = new PinataSDK({
+        pinataJwt  : "becffc35d6c967eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZTFhMmJlNC04YWJmLTQ2OTYtOTY2NC0zOTU3NDljMTJjNGUiLCJlbWFpbCI6Im5wYW5kaWFuNTE1QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiI0NTVjMjQ1MTRlNTI4ZWY2MzNjZCIsInNjb3BlZEtleVNlY3JldCI6ImJlY2ZmYzM1ZDZjOTY3ZDU5NTBkZjAzMzQ3ZTg2NjYyNDI0ZmVlMDkxZDg1MDk4ODI4OTdhNjU5NDAzYzk3YTYiLCJleHAiOjE3NzQyMTc4Mjd9.PgXhH_ht3WhqIckYd5950df03347e86662424fee091d8509882897a659403c97a6",
+        pinataGateway: "https://gateway.pinata.cloud",
+    })
 
     const getContract = async () => {
         if (!walletClient) return null;
@@ -32,17 +39,48 @@ const NFTrentAndMint = () => {
         const owner = await contract.owner();
         setIsOwner(owner.toLowerCase() === address.toLowerCase());
     };
+    const uploadToPinata = async () =>{
+        try {
+            const metaData = {
+                description,
+                mediaType,
+                name: `NFT${tokenId}`
+            };
+
+            if(file) {
+                const fileUpload = await pinata.upload.file(file);
+                metaData.ipfsMediaCid =fileUpload.cid
+            }
+
+            const jsonBlob = new Blob([JSON.stringify(metaData)] , {
+                type: 'application/json',
+            });
+
+            const jsonFile = new File([jsonBlob, `nft_${tokenId}_metaData.json`], {
+                type: 'application/json',
+            })
+            const upload = await pinata.upload.file(jsonFile)
+            return upload.cid
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleMint = async () => {
         try {
             const contract = await getContract();
             if (!contract || !tokenId || !description || !ipfsHash || !rentalPrice || !mediaType) return;
 
+            const cid = await uploadToPinata();
+            setIpfsHash(cid)
+
             const tx = await contract.mintPost(
                 address,
                 tokenId,
                 description,
                 ipfsHash,
+                cid,
                 parseEther(rentalPrice),
                 mediaType
             );
@@ -107,13 +145,23 @@ const NFTrentAndMint = () => {
             if (!contract || !tokenId) return;
 
             const [desc, pricePerSecond, mtype, uri] = await contract.getNFTDetails(tokenId);
+            let metaData = {};
+
+            if(uri) {
+                const response = await fetch(`https://gateway.pinata.cloud/ipfs/${uri}`);
+                if (response.ok) {
+                    metaData = await response.json();
+                }
+            }
 
             setNftDetails({
                 description: desc,
                 rentalPricePerSecond: ethers.utils.formatEther(pricePerSecond),
                 mediaType: mtype,
-                tokenURI: uri
+                tokenURI: uri,
+                ipfsMetaData : metaData,
             });
+            setIpfsHash(uri)
         } catch (error) {
             setErrorMessage("Fetch NFT Details error: " + error.message);
         }
@@ -270,7 +318,46 @@ const NFTrentAndMint = () => {
             >
               WITHDRAW FEES
             </button>
+                
+                
+
           </div>
+
+          {nftDetails && (
+                        <div className="mt-6 p-4 bg-gray-50 border-2 border-black rounded-lg">
+                            <h3 className="text-xl font-bold">NFT Details</h3>
+                            <p>Description: {nftDetails.description}</p>
+                            <p>Rental Price: {nftDetails.rentalPricePerSecond} ETH/second</p>
+                            <p>Media Type: {nftDetails.mediaType}</p>
+                            <p>IPFS URI: {nftDetails.tokenURI}</p>
+                            {nftDetails.ipfsMetadata && (
+                                <>
+                                    {nftDetails.ipfsMetadata.ipfsMediaCid && (
+                                        <img
+                                            src={`https://gateway.pinata.cloud/ipfs/${nftDetails.ipfsMetadata.ipfsMediaCid}`}
+                                            alt="NFT Media"
+                                            className="mt-2 max-w-full h-auto"
+                                        />
+                                    )}
+                                    <p>Metadata Description: {nftDetails.ipfsMetadata.description}</p>
+                                </>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Display Active Renters */}
+                    {activeRenters.length > 0 && (
+                        <div className="mt-6 p-4 bg-gray-50 border-2 border-black rounded-lg">
+                            <h3 className="text-xl font-bold">Active Renters</h3>
+                            <ul>
+                                {activeRenters.map((renter, index) => (
+                                    <li key={index}>{renter}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                
+          
           
           {errorMessage && (
             <div className="mt-4 p-3 bg-red-100 border-l-4 border-red-500 text-red-700">
