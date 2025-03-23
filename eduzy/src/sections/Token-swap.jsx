@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import { useAccount, useWalletClient } from 'wagmi'
 import {ethers, parseEther} from "ethers"
-import ABI from "../ABI/token_swap.json"
+import ABI from "../ABI/token_Swap.json"
 import ABITK  from "../ABI/token_creation.json"
 import { token_swap_address} from "../contract_address/token_swap"
 import { Token_contract_adddress} from '../contract_address/tokenCreation'
