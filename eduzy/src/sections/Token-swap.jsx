@@ -44,6 +44,8 @@ const TokenSwap = () => {
             setTokenBalance(ethers.formatEther(bal));
         } catch (error) {
             console.log(error);
+            const weiBalance = ethers.parseUnits(bal.toString(), "wei");
+            setTokenBalance(weiBalance.toString());
         }
     }
 

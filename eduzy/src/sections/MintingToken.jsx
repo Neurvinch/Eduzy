@@ -41,18 +41,12 @@ const MintingToken = () => {
   const fetchTotalSupply = async () =>{
     try {
         const contract = await getContract();
-        if(!contract || !address) return;
-        
+        if(!contract) return;
 
-        const amount = parseEther(mintAmount);
-        const tx = await contract.mint(mintTo, amount);
-        await tx.wait();
-        fetchTotalSupply();
-        fetchBalance()
-        
+        const supply = await contract.totalSupply();
+        setTotalSupply(ethers.formatEther(supply));
     } catch (error) {
         console.log(error);
-        
     }
   }
 
