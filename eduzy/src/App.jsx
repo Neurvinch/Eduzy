@@ -9,7 +9,7 @@ import MintingToken from './sections/MintingToken';
 import TokenSwap from './sections/Token-swap';
 import Events from './sections/Events';
 import Voting from './sections/Voting';
-
+import LiveStreaming from './sections/LiveStreaming';
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
         <Route path="/TokenSwap" element={<TokenSwap />} />
         <Route path="/Events" element={<Events />} />
         <Route path="/Voting" element={<Voting />} />
+        <Route path="/LiveStreaming" element={<LiveStreaming/>} />
       </Routes>
     </Router>
       

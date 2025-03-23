@@ -32,6 +32,9 @@ const Navbar = () => {
         <Link to="/Voting" className="text-black hover:text-blue-primary font-medium">
         voting
         </Link>
+        <Link to="/LiveStreaming" className="text-black hover:text-blue-primary font-medium">
+        Live
+        </Link>
         <ConnectButton />
       </div>
     </nav>

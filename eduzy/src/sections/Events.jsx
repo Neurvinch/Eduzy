@@ -204,7 +204,7 @@ const Events = () => {
   }, [address, isConnected]);
 
   return (
-    <div className="min-h-screen relative mt-20" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+    <div className="min-h-screen relative mt-20  mr-[350px] ml-[350px]" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
       {/* Decorative elements */}
       <div className="absolute top-20 left-12 w-16 h-16">
         <svg viewBox="0 0 100 100" className="w-full h-full">
