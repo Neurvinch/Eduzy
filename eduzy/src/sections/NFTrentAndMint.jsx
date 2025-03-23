@@ -3,6 +3,7 @@ import { useAccount, useWalletClient } from 'wagmi';
 import { ethers, parseEther } from 'ethers';
 import { PinataSDK } from 'pinata';
 import ABI from '../ABI/rentAndMint.json';
+import UploadToPinataUI from './IPFS';
 
 const NFTrentAndMint = () => {
     const { address, isConnected } = useAccount();
@@ -26,31 +27,31 @@ const NFTrentAndMint = () => {
     //     pinataGateway: "https://gateway.pinata.cloud",
     // })
 
-    const uploadToIPFS = async (file) => {
-        if (!file) return alert("Please select a file!");
+    // const uploadToIPFS = async (file) => {
+    //     if (!file) return alert("Please select a file!");
       
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
+    //     try {
+    //       const formData = new FormData();
+    //       formData.append("file", file);
       
-          const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-            method: "POST",
-            headers: {
-              Authorization:` Bearer becffc35d6c967eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZTFhMmJlNC04YWJmLTQ2OTYtOTY2NC0zOTU3NDljMTJjNGUiLCJlbWFpbCI6Im5wYW5kaWFuNTE1QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiI0NTVjMjQ1MTRlNTI4ZWY2MzNjZCIsInNjb3BlZEtleVNlY3JldCI6ImJlY2ZmYzM1ZDZjOTY3ZDU5NTBkZjAzMzQ3ZTg2NjYyNDI0ZmVlMDkxZDg1MDk4ODI4OTdhNjU5NDAzYzk3YTYiLCJleHAiOjE3NzQyMTc4Mjd9.PgXhH_ht3WhqIckYd5950df03347e86662424fee091d8509882897a659403c97a6`,},
-            body: formData,
-          });
+    //       const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+    //         method: "POST",
+    //         headers: {
+    //           Authorization:` Bearer becffc35d6c967eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJmZTFhMmJlNC04YWJmLTQ2OTYtOTY2NC0zOTU3NDljMTJjNGUiLCJlbWFpbCI6Im5wYW5kaWFuNTE1QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiI0NTVjMjQ1MTRlNTI4ZWY2MzNjZCIsInNjb3BlZEtleVNlY3JldCI6ImJlY2ZmYzM1ZDZjOTY3ZDU5NTBkZjAzMzQ3ZTg2NjYyNDI0ZmVlMDkxZDg1MDk4ODI4OTdhNjU5NDAzYzk3YTYiLCJleHAiOjE3NzQyMTc4Mjd9.PgXhH_ht3WhqIckYd5950df03347e86662424fee091d8509882897a659403c97a6`,},
+    //         body: formData,
+    //       });
       
-          if (!response.ok) throw new Error("Failed to upload to IPFS");
+    //       if (!response.ok) throw new Error("Failed to upload to IPFS");
       
-          const data = await response.json();
-          return `https://gateway.pinata.cloud/ipfs/${data.IpfsHash}`;
-           console.log(data.IpfsHash)
-        } catch (error) {
-          console.error("IPFS Upload Error:", error);
-          alert("IPFS upload failed!");
-          return null;
-        }
-      };
+    //       const data = await response.json();
+    //       return `https://gateway.pinata.cloud/ipfs/${data.IpfsHash}`;
+    //        console.log(data.IpfsHash)
+    //     } catch (error) {
+    //       console.error("IPFS Upload Error:", error);
+    //       alert("IPFS upload failed!");
+    //       return null;
+    //     }
+    //   };
 
     const getContract = async () => {
         if (!walletClient) return null;
@@ -348,6 +349,7 @@ const NFTrentAndMint = () => {
                 
 
           </div>
+          <UploadToPinataUI/>
 
           {nftDetails && (
                         <div className="mt-6 p-4 bg-gray-50 border-2 border-black rounded-lg">
