@@ -1,1 +1,1 @@
-export const event_contract_address = "0xA21343e0CeF710e28ddC2C96827f76476ff76e39"
+export const event_contract_address = "0xd9E5d3E1C411F709f90Aa682f157CE105366d09f"

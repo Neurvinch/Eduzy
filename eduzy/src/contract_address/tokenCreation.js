@@ -1,1 +1,1 @@
-export const Token_contract_adddress = "0x15ECf865Ec24ac5ec579d456Cbb943A0334b1c97";
+export const Token_contract_adddress = "0x9Bd920a31b0280D662F5872633813A45fD2C3f1D";

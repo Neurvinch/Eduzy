@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAccount, useWalletClient } from 'wagmi'
-import {ethers,parseEther} from "ethers"
+import {ethers, parseUnits} from "ethers"
 import ABI from "../ABI/register.json"
 
 const ComeAndStake = () => {
@@ -9,7 +9,7 @@ const ComeAndStake = () => {
     const [username, setUsername] = useState("");
     const[ipfsHash , setIpfsHash] = useState("");
     const[userInfo, setUserInfo] = useState(null);
-    const contract_address = "0xaCB9e846a78a32Ba084a4BA6669C7D71880c3475"
+    const contract_address = "0x840aA5A5C4F16EdF0014695070D42FFD8ea63D73"
 
      const getContract = async () =>{
         if(!walletClient) return null;
@@ -24,7 +24,7 @@ const ComeAndStake = () => {
             if(!contract) return;
 
             const tx = await contract.stakeAmountAndRegister(username ,ipfsHash, {
-                value : parseEther("0.0000001")
+                value : parseUnits("0.00001")
             });
             const result=await tx.wait();
             console.log(result)
@@ -78,11 +78,11 @@ const ComeAndStake = () => {
                 console.log(error)
             }
           }  
-            useEffect( () => {
-                if(isConnected && address) {
-                    fetchUserInfo();
-                }
-            },[address , isConnected]);
+            // useEffect( () => {
+            //     if(isConnected && address) {
+            //         fetchUserInfo();
+            //     }
+            // },[address , isConnected]);
   return (
     <div className="relative min-h-screen bg-gray-100">
     {/* Background grid */}

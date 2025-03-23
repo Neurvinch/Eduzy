@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
-import { ethers, parseEther } from 'ethers';
+import { ethers, parseEther, parseUnits } from 'ethers';
 import { PinataSDK } from 'pinata';
 import ABI from '../ABI/rentAndMint.json';
 import UploadToPinataUI from './IPFS';
@@ -108,7 +108,7 @@ const NFTrentAndMint = () => {
                 description,
                 ipfsHash,
                 cid,
-                parseEther(rentalPrice),
+                parseUnits(rentalPrice),
                 mediaType
             );
             await tx.wait();

@@ -1,1 +1,1 @@
-export const token_swap_address = "0xD2d09f95DDc030F8EE17dd3eDCDb62Cda3EF73C7"
+export const token_swap_address = "0x824CB569078c36f5eF5187De683F5D01Fa76Afa1"
