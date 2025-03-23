@@ -1,207 +1,209 @@
-import { useHuddle01 ,HuddleProvider } from '@huddle01/react';
-import React, { useRef, useState } from 'react'
-import { useAccount, useWalletClient } from 'wagmi'
-import { useRoom, useLocalVideo ,useLocalAudio , useLocalScreenShare} from '@huddle01/react';
-import { formatEther } from 'ethers';
-import { Token_contract_adddress } from '../contract_address/tokenCreation';
-import { live_contract_address } from '../contract_address/live';
-import ABI from "../ABI/live.json"
-import ABITK from "../ABI/token_creation.json"
-const LiveStreaming = () => {
-    const {address, isConnected} = useAccount();
-    const{data : walletClient} = useWalletClient();
-    const[showId , setShowId] = useState("");
-    const[roomId, setRoomId] = useState("");
-    const [hasAccess , setHasAccess] = useState(false);
-    const [showFee , setShowFee] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const videoRef = useRef(null);
-    const{intialize,isInitialized } = useHuddle01();
-    const{joinRoom , leaveRoom} = useRoom();
-    const { stream: videoStream, enableVideo, disableVideo, isVideoOn } = useLocalVideo();
-    const { stream: audioStream, enableAudio, disableAudio, isAudioOn } = useLocalAudio();
-    const { startScreenShare, stopScreenShare, shareStream } =
-      useLocalScreenShare();
+import React, { useState } from 'react';
+import { parseUnits } from 'ethers';
+import { useAccount, useWriteContract } from 'wagmi';
+import { sepolia } from 'wagmi/chains';
+import { motion } from 'framer-motion';
+import { 
+  FaVideo, 
+  FaCoins, 
+  FaSpinner, 
+  FaCheckCircle, 
+  FaExternalLinkAlt 
+} from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
-      const getLiveShowContract = async () => {
-        if (!walletClient) return null;
-        const provider = new ethers.BrowserProvider(walletClient);
-        const signer = await provider.getSigner();
-        return new ethers.Contract(live_contract_address, ABI, signer);
-    };
+// You need to define your ABI somewhere
+import ABI from '../ABI/live.json';
 
-      const getTokenContract = async () => {
-        if (!walletClient) return null;
-        const provider = new ethers.BrowserProvider(walletClient);
-        const signer = await provider.getSigner();
-        return new ethers.Contract(Token_contract_adddress, ABITK, signer);
-    };
+import { live_contract_address} from '../contract_address/live';
 
+const LiveShowAccess = () => {
+  const { address } = useAccount();
+  const [title, setTitle] = useState("");
+  const [fee, setFee] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [txHash, setTxHash] = useState("");
 
-    const fetchShowFee = async () => {
-        try {
-            const contract = await getLiveShowContract();
-            if (!contract || !address) return;
-            const show = await contract.liveShows(showId);
-            setShowFee(formatEther(show.fee))
-            
-        } catch (error) {
-            console.log(error);
-        }
+  const { writeContractAsync } = useWriteContract({ chain: sepolia.id});
+   
+  const handleCreateShow = async () => {
+    if (!title || !fee) {
+      toast.error("Please enter both title and fee", {
+        position: "top-right",
+        theme: "colored"
+      });
+      return;
     }
-
-    const approveTokens = async (amount) => {
-        try {
-            const tokenContract = await getTokenContract();
-            if (!contract || !address) return;
-            const tx = await tokenContract.approve(live_contract_address, amount);
-            await tx.wait();
-            setSuccessMessage('Tokens approved'+ tx.hash);
-            
-        } catch (error) {
-            console.log(error);
-        }
+    
+    if (!address) {
+      toast.warn("Please connect your wallet", {
+        position: "top-right",
+        theme: "colored"
+      });
+      return;
     }
-
-    const checkAccess = async () => {
-        try {
-            const contract = await getLiveShowContract();
-            if (!contract || !showId) {
-                setErrorMessage("Please enter a Show ID");
-                return false;
-            }
-            const access = await contract.checkAccess(showId, address);
-            if (!access) {
-                const show = await contract.liveShows(showId);
-                await approveTokens(show.fee);
-                const tx = await contract.payForAccess(showId);
-                await tx.wait();
-                setSuccessMessage("Access purchased: " + tx.hash);
-            }
-            return true;
-        } catch (error) {
-            setErrorMessage("Access denied: " + error.message);
-            return false;
-        }
-    };
-
-    const initializeHuddle = async () => {
-        if (!isInitialized) {
-            await intialize("ak_rTuZ9yUUnJDnAD2K");
-        }
-    };
-
-    const joinMeeting = async () => {
-        try {
-            if (!showId) {
-                setErrorMessage("Please enter a Show ID");
-                return;
-            }
-            const accessGranted = await checkAccess();
-            if (!accessGranted) return;
-
-            await initializeHuddle();
-            const room = `live-show-${showId}`;
-            setRoomId(room);
-            await joinRoom({ roomId: room });
-            await fetchVideoStream();
-            await fetchAudioStream();
-            setHasAccess(true);
-            setSuccessMessage("Joined live show #" + showId);
-            setErrorMessage('');
-        } catch (error) {
-            setErrorMessage("Failed to join meeting: " + error.message);
-            setSuccessMessage('');
-        }
-    };
-
-    const endMeeting = async () => {
-        try {
-            await stopVideoStream();
-            await stopAudioStream();
-             leaveRoom();
-            setRoomId('');
-            setHasAccess(false);
-            setSuccessMessage("Meeting ended");
-            setErrorMessage('');
-        } catch (error) {
-            setErrorMessage("Failed to end meeting: " + error.message);
-        }
-    };
-
-    useEffect(() => {
-        if (videoStream && videoRef.current) {
-            videoRef.current.srcObject = videoStream;
-        }
-    }, [videoStream]);
-
-    useEffect(() => {
-        if (isConnected && showId) {
-            fetchShowFee();
-        }
-    }, [showId, isConnected]);
-
+    
+    setIsLoading(true);
+    try {
+      const tx = await writeContractAsync({
+        address: live_contract_address,
+        abi: ABI,
+        functionName: "createLiveShow",
+        args: [title, parseUnits(fee, "wei")],
+       
+        account: address
+      });
+      
+      setTxHash(tx);
+      
+      toast.success("Live show created successfully!", {
+        position: "top-right",
+        theme: "colored"
+      });
+      
+      // Reset form
+      setTitle("");
+      setFee("");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message || "Error creating live show", {
+        position: "top-right",
+        theme: "colored"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <HuddleProvider>
-        <div className="relative min-h-screen bg-gray-100">
-                <div className="absolute inset-0 bg-white" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-                <header className="relative p-4">
-                    <h1 className="text-3xl font-bold text-orange-600">Live Streaming Hub</h1>
-                </header>
-                <main className="relative px-6 pt-8 pb-24">
-                    <div className="max-w-lg mx-auto bg-white rounded-xl p-6 border-2 border-black shadow-lg" style={{ boxShadow: '8px 8px 0 rgba(0,0,0,1)' }}>
-                        <h2 className="text-4xl font-black text-center mb-2">LIVE STREAMING</h2>
-                        <h3 className="text-3xl font-bold text-center text-pink-400 mb-6">WITH HUDDLE01</h3>
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center p-4">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden"
+      >
+        {/* Header */}
+        <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-6 text-center">
+          <motion.div
+            initial={{ rotate: 0 }}
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ 
+              duration: 1,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+            className="mx-auto w-24 h-24 bg-white rounded-full flex items-center justify-center mb-4"
+          >
+            <FaVideo className="text-4xl text-purple-600" />
+          </motion.div>
+          <h1 className="text-3xl font-bold text-white">Create Live Show</h1>
+          <p className="text-white/80 mt-2">Launch your exclusive web3 event</p>
+        </div>
 
-                        {!hasAccess ? (
-                            <div className="space-y-4">
-                                <input
-                                    type="text"
-                                    placeholder="Live Show ID"
-                                    value={showId}
-                                    onChange={(e) => setShowId(e.target.value)}
-                                    className="w-full px-4 py-3 border-2 border-black rounded-lg bg-yellow-100"
-                                />
-                                <p className="text-sm text-gray-600">
-                                    Entry Fee: {showFee ? `${showFee} EXT` : "Enter Show ID to see fee"}
-                                </p>
-                                <button
-                                    onClick={joinMeeting}
-                                    className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:scale-105 hover:bg-blue-600 transition-transform"
-                                >
-                                    JOIN LIVE SHOW
-                                </button>
-                            </div>
-                        ) : (
-                            <div>
-                                <h3 className="text-xl font-bold">Room: {roomId}</h3>
-                                <video ref={videoRef} autoPlay muted className="w-full mt-2 border-2 border-black rounded-lg" />
-                                <div className="mt-4">
-                                    <h4 className="font-bold">Participants:</h4>
-                                    <ul>
-                                        {Object.values(peers).map(peer => (
-                                            <li key={peer.peerId}>{peer.displayName || peer.peerId} ({peer.role})</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <button
-                                    onClick={endMeeting}
-                                    className="w-full bg-red-500 text-white font-bold py-3 px-4 rounded-lg hover:scale-105 hover:bg-red-600 transition-transform mt-4"
-                                >
-                                    END LIVE SHOW
-                                </button>
-                            </div>
-                        )}
+        {/* Form */}
+        <div className="p-6 space-y-6">
+          {/* Show Title Input */}
+          <motion.div 
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="relative"
+          >
+            <label className="block text-gray-700 mb-2 flex items-center">
+              <FaVideo className="mr-2 text-purple-500" />
+              Show Title
+            </label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full pl-4 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition duration-300"
+              placeholder="Enter show title"
+            />
+          </motion.div>
 
-                        {errorMessage && <div className="mt-4 p-3 bg-red-100 border-l-4 border-red-500 text-red-700"><p>{errorMessage}</p></div>}
-                        {successMessage && <div className="mt-4 p-3 bg-green-100 border-l-4 border-green-500 text-green-700"><p>{successMessage}</p></div>}
-                    </div>
-                </main>
-            </div>
-    </HuddleProvider>
-  )
-}
+          {/* Fee Input */}
+          <motion.div 
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="relative"
+          >
+            <label className="block text-gray-700 mb-2 flex items-center">
+              <FaCoins className="mr-2 text-yellow-500" />
+              Fee (in wei)
+            </label>
+            <input
+              type="text"
+              value={fee}
+              onChange={(e) => setFee(e.target.value)}
+              className="w-full pl-4 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 transition duration-300"
+              placeholder="Enter fee amount"
+            />
+          </motion.div>
 
-export default LiveStreaming
+          {/* Create Show Button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleCreateShow}
+            disabled={isLoading || !address}
+            className={`w-full py-3 rounded-lg text-white font-bold transition duration-300 flex items-center justify-center ${
+              isLoading 
+                ? "bg-gray-400 cursor-not-allowed" 
+                : "bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
+            }`}
+          >
+            {isLoading ? (
+              <>
+                <FaSpinner className="mr-2 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              <>
+                <FaCheckCircle className="mr-2" />
+                Create Live Show
+              </>
+            )}
+          </motion.button>
+
+          {/* Transaction Hash */}
+          {txHash && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-4 bg-green-50 p-4 rounded-lg"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <FaCheckCircle className="text-green-500 mr-2" />
+                  <span className="text-green-700">Transaction Submitted</span>
+                </div>
+                <a 
+                  href={`https://sepolia.etherscan.io/tx/${txHash}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline flex items-center"
+                >
+                  <FaExternalLinkAlt className="mr-1" />
+                  View
+                </a>
+              </div>
+              <p className="text-xs text-gray-500 mt-2 break-all">
+                {txHash}
+              </p>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="bg-gray-100 p-4 text-center text-sm text-gray-500">
+          Powered by Web3 Technology
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default LiveShowAccess;
