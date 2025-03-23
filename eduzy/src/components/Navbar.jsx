@@ -26,7 +26,12 @@ const Navbar = () => {
         <Link to="/TokenSwap" className="text-black hover:text-blue-primary font-medium">
         TokenSwap
         </Link>
-        
+        <Link to="/Events" className="text-black hover:text-blue-primary font-medium">
+        Events
+        </Link>
+        <Link to="/Voting" className="text-black hover:text-blue-primary font-medium">
+        voting
+        </Link>
         <ConnectButton />
       </div>
     </nav>

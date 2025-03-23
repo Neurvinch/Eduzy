@@ -7,6 +7,9 @@ import ComeAndStake from './sections/ComeAndStake';
 import NFTrentAndMint from './sections/NFTrentAndMint';
 import MintingToken from './sections/MintingToken';
 import TokenSwap from './sections/Token-swap';
+import Events from './sections/Events';
+import Voting from './sections/Voting';
+
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
         <Route path="/NFTrentAndMint" element={<NFTrentAndMint />} />
         <Route path="/MintingToken" element={<MintingToken />} />
         <Route path="/TokenSwap" element={<TokenSwap />} />
+        <Route path="/Events" element={<Events />} />
+        <Route path="/Voting" element={<Voting />} />
       </Routes>
     </Router>
       

@@ -53,7 +53,8 @@ const TokenSwap = () => {
             if(!swapcontract || !address) return;
     
             const rate = await swapcontract.rate();
-            setSwapRate(rate.toSting());
+            setSwapRate(rate.toString());
+
         } catch (error) {
             console.log(error);
         }
