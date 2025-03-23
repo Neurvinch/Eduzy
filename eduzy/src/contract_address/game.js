@@ -1,0 +1,1 @@
+export const Game_contract_address = "0x61A86C1C7Cb2F5963f6Ef69bA44B513c97277D05"
