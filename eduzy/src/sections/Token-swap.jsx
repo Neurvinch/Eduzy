@@ -114,9 +114,9 @@ const TokenSwap = () => {
         } },[ isConnected,address])
   return (
   
-<div className="relative min-h-screen mt-20 bg-white  mr-[250px] ml-[250px]" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+<div className="relative min-h-screen mt-20 bg-white" style={{ backgroundImage: 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
       {/* Decorative elements */}
-      <div className="absolute top-16 right-24 w-12 h-12 bg-orange-500 rounded-full animate-pulse "></div>
+      <div className="absolute top-16 right-24 w-12 h-12 bg-orange-500 rounded-full animate-pulse"></div>
       <div className="absolute bottom-32 left-16 w-10 h-10">
         <svg viewBox="0 0 40 40" className="w-10 h-10">
           <path d="M20,0 L25,15 L40,20 L25,25 L20,40 L15,25 L0,20 L15,15 Z" stroke="black" strokeWidth="1" fill="none"></path>
@@ -124,7 +124,7 @@ const TokenSwap = () => {
       </div>
       <div className="absolute top-40 left-8 w-8 h-16 bg-green-600 rounded-l-full"></div>
 
-      <div className="container px-4 py-8 relative z-10  ">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <h1 className="text-4xl font-black text-center mb-8">
           <span className="text-orange-600">Token</span>
           <span className="text-black">Swap</span> 
