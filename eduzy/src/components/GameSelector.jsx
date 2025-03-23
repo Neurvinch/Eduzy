@@ -6,7 +6,7 @@ const GameSelector = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center relative overflow-hidden mt-8">
       {/* Grid background */}
       <div className="absolute inset-0 bg-white" style={{ 
         backgroundImage: "linear-gradient(#ddd 1px, transparent 1px), linear-gradient(90deg, #ddd 1px, transparent 1px)",
@@ -57,7 +57,7 @@ const GameSelector = () => {
           title="Treasure Toss"
           description="Catch falling coins to earn rewards"
           image="/assets/coin.png"
-          onClick={() => navigate("/coin-catcher")}
+          onClick={() => navigate("/CoinCatcher")}
           color="bg-orange-400"
           isHovered={hoveredCard === "treasure-toss"}
           setHovered={() => setHoveredCard("treasure-toss")}
@@ -67,7 +67,7 @@ const GameSelector = () => {
           title="Merge Master"
           description="Combine tiles to reach higher numbers"
           image="/assets/Game2k.png"
-          onClick={() => navigate("/2048")}
+          onClick={() => navigate("/Game2048")}
           color="bg-purple-400"
           isHovered={hoveredCard === "merge-master"}
           setHovered={() => setHoveredCard("merge-master")}
@@ -77,7 +77,7 @@ const GameSelector = () => {
           title="Smash-a-Mole"
           description="Test your reflexes and earn tokens"
           image="/assets/mole-whacked.png"
-          onClick={() => navigate("/whack-a-mole")}
+          onClick={() => navigate("/WhackAMole")}
           color="bg-blue-400"
           isHovered={hoveredCard === "smash-a-mole"}
           setHovered={() => setHoveredCard("smash-a-mole")}
@@ -85,12 +85,6 @@ const GameSelector = () => {
         />
       </div>
 
-     
-
-      {/* Footer */}
-      <div className="mt-8 text-gray-600 text-sm text-center w-full relative z-10">
-        <p>© 2025 Play to Earn Games | All rights reserved</p>
-      </div>
     </div>
   );
 };

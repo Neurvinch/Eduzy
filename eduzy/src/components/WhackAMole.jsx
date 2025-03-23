@@ -225,7 +225,7 @@ const WhackAMole = () => {
   }, []);
   
   return (
-    <div className="h-screen flex flex-col items-center justify-center overflow-hidden relative cursor-none"
+    <div className="h-screen flex flex-col items-center justify-center overflow-hidden relative cursor-none mt-20"
          style={{
            backgroundImage: 'linear-gradient(#f5f5f5 1px, transparent 1px), linear-gradient(90deg, #f5f5f5 1px, transparent 1px)',
            backgroundSize: '20px 20px',
@@ -342,7 +342,7 @@ const WhackAMole = () => {
       )}
       
       {/* Game Grid */}
-      <div className="grid grid-cols-3 gap-6 w-[400px] h-[400px] z-10 mt-32">
+      <div className="grid grid-cols-3 gap-6 w-[400px] h-[400px] z-10 mt-[220px]">
         {Array.from({ length: 9 }).map((_, index) => (
           <div
             key={index}
