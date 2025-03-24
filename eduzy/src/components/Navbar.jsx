@@ -35,6 +35,10 @@ const Navbar = () => {
        < Link to="/Games" className="text-black hover:text-blue-primary font-medium">
         Games
         </Link>
+        < Link to="/LiveStreaming" className="text-black hover:text-blue-primary font-medium">
+        LiveRooms
+        </Link>
+        
         <ConnectButton />
       </div>
     </nav>
